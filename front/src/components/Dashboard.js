@@ -30,43 +30,46 @@ const Dashboard = () => {
             console.error(err);
         }
     };
-    
+
     const handleUpdate = async () => {
-        const url = `http://localhost:3000/users/${editingUser.id}`;
-        try {
-            const response = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(editingUser),
-            });
-            if (response.ok) {
-                const user = await response.json();
-                setUsers((users) =>
-                    users.map((u) => (u.id === user.id ? user : u)),
-                );
-                setEditingUser(null);
+        if (window.confirm('Êtes-vous sûr de vouloir modifier cet utilisateur ?')) {
+            const url = `http://localhost:3000/users/${editingUser.id}`;
+            try {
+                const response = await fetch(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(editingUser),
+                });
+                if (response.ok) {
+                    const updatedUsers = users.map(user => user.id === editingUser.id ? editingUser : user);
+                    setUsers(updatedUsers);
+                    setEditingUser(null);
+                }
+            } catch (err) {
+                console.error(err);
             }
-        } catch (err) {
-            console.error(err);
         }
     };
 
     const deleteUser = async () => {
+
         const url = `http://localhost:3000/users/${selectedUser.id}`;
-        try {
-            const response = await fetch(url, { method: 'DELETE' });
-            if (response.ok) {
-                setUsers((users) =>
-                    users.filter((user) => user.id !== selectedUser.id),
-                );
-                setSelectedUser(null);
+        if (window.confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+            try {
+                const response = await fetch(url, { method: 'DELETE' });
+                if (response.ok) {
+                    setUsers((users) =>
+                        users.filter((user) => user.id !== selectedUser.id),
+                    );
+                    setSelectedUser(null);
+                }
+            } catch (err) {
+                console.error(err);
             }
-        } catch (err) {
-            console.error(err);
-        }
-    };
+        };
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -99,45 +102,75 @@ const Dashboard = () => {
                     {users &&
                         users.map((user, index) => (
                             <tr key={index}>
-                                <td><input 
-                                        type="radio" 
-                                        name="userSelection" 
-                                        value={user.id}
-                                        onChange={(event) => setSelectedUser(users.find(user => user.id === Number(event.target.value)))}
-                                        checked={selectedUser && selectedUser.id === user.id}
-                                    ></input>
-                                </td>
-                                <td>{user.firstname}</td>
-                                <td>{user.lastname}</td>
-                                <td>{user.email}</td>
-                                <td>{user.password}</td>
-                                <td><img src={editIcon} alt="Update" /></td>
-                                <td><img src={cancelIcon} alt="Delete" onClick={deleteUser}/></td>
+                                {editingUser && editingUser.id === user.id ? (
+                                    <>
+                                        <td><input
+                                            type="radio"
+                                            name="userSelection"
+                                            value={user.id}
+                                            onChange={(event) => setSelectedUser(users.find(user => user.id === Number(event.target.value)))}
+                                            checked={selectedUser && selectedUser.id === user.id}
+                                        ></input>
+                                        </td>
+                                        <td>
+                                            <input className="blinking-input" type="text" value={editingUser.firstname} onChange={(e) => setEditingUser({ ...editingUser, firstname: e.target.value })} />
+                                        </td>
+                                        <td>
+                                            <input className="blinking-input" type="text" value={editingUser.lastname} onChange={(e) => setEditingUser({ ...editingUser, lastname: e.target.value })} />
+                                        </td>
+                                        <td>
+                                            <input className="blinking-input" type="text" value={editingUser.email} onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })} />
+                                        </td>
+                                        <td>
+                                            <input className="blinking-input" type="text" value={editingUser.password} onChange={(e) => setEditingUser({ ...editingUser, password: e.target.value })} />
+                                        </td>
+                                        <td><img src={validIcon} alt="Valider" onClick={handleUpdate} /></td>
+                                        <td><img src={annulIcon} alt="Annuler" onClick={() => window.location.reload()} /></td>
+                                    </>
+                                ) : (
+                                    <>
+                                        <td><input
+                                            type="radio"
+                                            name="userSelection"
+                                            value={user.id}
+                                            onChange={(event) => setSelectedUser(users.find(user => user.id === Number(event.target.value)))}
+                                            checked={selectedUser && selectedUser.id === user.id}
+                                        ></input>
+                                        </td>
+                                        <td>{user.firstname}</td>
+                                        <td>{user.lastname}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.password}</td>
+                                        <td><img src={editIcon} alt="Update" onClick={() => selectedUser && selectedUser.id === user.id && setEditingUser(user)} /></td>
+                                        <td><img src={cancelIcon} alt="Delete" onClick={deleteUser} /></td>
+                                    </>
+                                )}
                             </tr>
                         ))}
-                {creatingUser ? (
-                    <tr>
-                        <td></td>
-                        <td>
-                            <input type="text" placeholder="Prénom" onChange={(e) => setNewUser({ ...newUser, firstname: e.target.value })}/>
-                        </td>
-                        <td>
-                            <input type="text" placeholder="Nom" onChange={(e) => setNewUser({ ...newUser, lastname: e.target.value })} />
-                        </td>
-                        <td>
-                            <input type="email" placeholder="Email" onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} />
-                        </td>
-                        <td>
-                            <input type="password" placeholder="Mot de passe" onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} />
-                        </td>
-                        <td><img src={validIcon} alt="Valider" onClick={handleCreate}/></td>
-                        <td><img src={annulIcon} alt="Annuler" onClick={() => window.location.reload()}/></td>
-                    </tr>
-                ) : null}
+
+                    {creatingUser ? (
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="text" placeholder="Prénom" onChange={(e) => setNewUser({ ...newUser, firstname: e.target.value })} />
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Nom" onChange={(e) => setNewUser({ ...newUser, lastname: e.target.value })} />
+                            </td>
+                            <td>
+                                <input type="email" placeholder="Email" onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} />
+                            </td>
+                            <td>
+                                <input type="password" placeholder="Mot de passe" onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} />
+                            </td>
+                            <td><img src={validIcon} alt="Valider" onClick={handleCreate} /></td>
+                            <td><img src={annulIcon} alt="Annuler" onClick={() => window.location.reload()} /></td>
+                        </tr>
+                    ) : null}
                 </tbody>
             </table>
             <div className="crud">
-                <button onClick={() => setCreatingUser(true)}>Create</button>
+                <button onClick={() => setCreatingUser(true)}>Ajouter un utilisateur</button>
             </div>
         </>
     );

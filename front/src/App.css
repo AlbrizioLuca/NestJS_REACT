@@ -68,13 +68,9 @@ h2 , li , span , p , form {
   color: white;
 }
 
-input not:check{
-  width: 20%;
-}
-
 table {
   border: 1px solid black;
-  width: 60%;
+  width: 75%;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -96,10 +92,21 @@ table tr:nth-child(odd) {
   background-color: white;
 }
 table input{
-  width: 100% ;
-  border: 0 ;
+  width: 90% ;
+  border: 0;
   background: transparent;
   text-align: center;
+}
+
+@keyframes blink {
+  0% { border-color: red; }
+  50% { border-color: transparent; }
+  100% { border-color: red; }
+}
+
+.blinking-input {
+  border: 2px solid red;
+  animation: blink 3s linear infinite;
 }
 
 table img {
