@@ -4,7 +4,7 @@ import cancelIcon from '../img/effacer.png';
 import validIcon from '../img/valider.png';
 import annulIcon from '../img/annuler.png';
 
-const Dashboard = () => {
+const TableCRUD = () => {
     const [users, setUsers] = useState(null);
     const [creatingUser, setCreatingUser] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
@@ -53,7 +53,7 @@ const Dashboard = () => {
         }
     };
 
-    const deleteUser = async () => {
+    const HandleDelete = async () => {
 
         const url = `http://localhost:3000/users/${selectedUser.id}`;
         if (window.confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
@@ -84,6 +84,9 @@ const Dashboard = () => {
         };
         fetchData();
     }, []);
+
+    const handleChange = (evt) => setNewUser({ ...newUser, [evt.target.name]: evt.target.value })
+
     return (
         <>
             <table>
@@ -142,7 +145,7 @@ const Dashboard = () => {
                                         <td>{user.email}</td>
                                         <td>{user.password}</td>
                                         <td><img src={editIcon} alt="Update" onClick={() => selectedUser && selectedUser.id === user.id && setEditingUser(user)} /></td>
-                                        <td><img src={cancelIcon} alt="Delete" onClick={deleteUser} /></td>
+                                        <td><img src={cancelIcon} alt="Delete" onClick={HandleDelete} /></td>
                                     </>
                                 )}
                             </tr>
@@ -152,16 +155,16 @@ const Dashboard = () => {
                         <tr>
                             <td></td>
                             <td>
-                                <input type="text" placeholder="Prénom" onChange={(e) => setNewUser({ ...newUser, firstname: e.target.value })} />
+                                <input type="text" placeholder="Prénom" name="firstname" onChange={handleChange} />
                             </td>
                             <td>
-                                <input type="text" placeholder="Nom" onChange={(e) => setNewUser({ ...newUser, lastname: e.target.value })} />
+                                <input type="text" placeholder="Nom" name="lastname" onChange={handleChange} />
                             </td>
                             <td>
-                                <input type="email" placeholder="Email" onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} />
+                                <input type="email" placeholder="Email" name="email" onChange={handleChange} />
                             </td>
                             <td>
-                                <input type="password" placeholder="Mot de passe" onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} />
+                                <input type="password" placeholder="Mot de passe" name="password" onChange={handleChange} />
                             </td>
                             <td><img src={validIcon} alt="Valider" onClick={handleCreate} /></td>
                             <td><img src={annulIcon} alt="Annuler" onClick={() => window.location.reload()} /></td>
@@ -169,10 +172,8 @@ const Dashboard = () => {
                     ) : null}
                 </tbody>
             </table>
-            <div className="crud">
-                <button onClick={() => setCreatingUser(true)}>Ajouter un utilisateur</button>
-            </div>
+            <button onClick={() => setCreatingUser(true)}>Ajouter un utilisateur</button>
         </>
     );
 };
-export default Dashboard;
+export default TableCRUD;
