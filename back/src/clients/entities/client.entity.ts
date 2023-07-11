@@ -18,6 +18,6 @@ export class Client {
     email: string;
     
     @Column()
-    phone: number;
+    phone: string;
 
 }

@@ -35,7 +35,7 @@ __decorate([
 ], Candidate.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Candidate.prototype, "phone", void 0);
 __decorate([
     (0, typeorm_1.Column)(),

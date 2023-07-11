@@ -3,7 +3,7 @@ export declare class CreateCandidateDto {
     lastname: string;
     diploma: string;
     email: string;
-    phone: number;
+    phone: string;
     birthday: Date;
     vehicle: boolean;
 }

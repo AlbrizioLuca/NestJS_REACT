@@ -4,5 +4,5 @@ export declare class Client {
     firstname: string;
     lastname: string;
     email: string;
-    phone: number;
+    phone: string;
 }

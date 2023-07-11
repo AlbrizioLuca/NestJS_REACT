@@ -4,7 +4,7 @@ export declare class Candidate {
     lastname: string;
     diploma: string;
     email: string;
-    phone: number;
+    phone: string;
     birthday: Date;
     vehicle: boolean;
 }

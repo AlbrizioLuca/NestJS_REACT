@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsDate, IsEmail, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateCandidateDto {
     @IsNotEmpty()
@@ -18,8 +18,8 @@ export class CreateCandidateDto {
     email: string;
     
     @IsNotEmpty()
-    @IsNumber()
-    phone: number;
+    @IsString()
+    phone: string;
 
     @IsNotEmpty()
     @IsDate()

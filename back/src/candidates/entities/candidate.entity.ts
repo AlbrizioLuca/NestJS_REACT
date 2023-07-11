@@ -18,7 +18,7 @@ export class Candidate {
     email: string;
     
     @Column()
-    phone: number;
+    phone: string;
 
     @Column()
     birthday: Date;
