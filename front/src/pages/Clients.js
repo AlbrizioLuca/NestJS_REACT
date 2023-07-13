@@ -1,7 +1,6 @@
 import NavBar from'../components/NavBar';
 import CRUD from '../components/CRUD';
 
-
 export default function DisplayClients(){
     const param = "clients"
     const fields = [

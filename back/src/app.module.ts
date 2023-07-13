@@ -8,7 +8,7 @@ import { CandidatesModule } from './candidates/candidates.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '192.168.1.34', // '192.168.8.117',  vérif ipconfig
+      host: '192.168.8.117',//'192.168.1.34',   vérif ipconfig
       port: 3306,
       username: 'root',
       password: 'root',
