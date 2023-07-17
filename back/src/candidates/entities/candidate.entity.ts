@@ -20,7 +20,7 @@ export class Candidate {
     @Column()
     phone: string;
 
-    @Column()
+    @Column({ type: "date" })
     birthday: Date;
 
     @Column()

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateCandidateDto = void 0;
 const class_validator_1 = require("class-validator");
+const typeorm_1 = require("typeorm");
 class CreateCandidateDto {
 }
 exports.CreateCandidateDto = CreateCandidateDto;
@@ -42,6 +43,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsDate)(),
+    (0, typeorm_1.Column)({ type: "date" }),
     __metadata("design:type", Date)
 ], CreateCandidateDto.prototype, "birthday", void 0);
 __decorate([

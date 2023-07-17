@@ -34,7 +34,7 @@ export const dataProvider: DataProvider = {
         return httpClient(url).then(({ json }) => ({ data: json }));
     },
 
-    getManyReference: (resource, params) => {
+    getManyReference: async (resource, params) => {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
         const query = {
@@ -47,26 +47,30 @@ export const dataProvider: DataProvider = {
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
-        return httpClient(url).then(({ headers, json }) => ({
+        const { headers, json } = await httpClient(url);
+        return ({
             data: json,
             total: parseInt((headers.get('content-range') || json.length.toString()).split('/').pop() || 0, 10),
-        }));
+        });
     },
 
     update: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`, {
-            method: 'PATCH',
-            body: JSON.stringify(params.data),
-        }).then(({ json }) => ({ data: json })),
+    httpClient(`${apiUrl}/${resource}/${params.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(params.data),
+    }).then(({ json }) => ({
+        data: { id: params.id, ...json },
+    })),
 
-    updateMany: (resource, params) => {
+    updateMany: async (resource, params) => {
         const query = {
             filter: JSON.stringify({ id: params.ids}),
         };
-        return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
+        const { json } = await httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
             method: 'PATCH',
             body: JSON.stringify(params.data),
-        }).then(({ json }) => ({ data: json }));
+        });
+        return ({ data: json });
     },
 
     create: (resource, params) =>
@@ -82,12 +86,13 @@ export const dataProvider: DataProvider = {
             method: 'DELETE',
         }).then(({ json }) => ({ data: json })),
 
-    deleteMany: (resource, params) => {
+    deleteMany: async (resource, params) => {
         const query = {
             filter: JSON.stringify({ id: params.ids}),
         };
-        return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
+        const { json } = await httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
             method: 'DELETE',
-        }).then(({ json }) => ({ data: json }));
+        });
+        return ({ data: json });
     }
 };

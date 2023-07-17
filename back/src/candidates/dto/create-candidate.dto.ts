@@ -1,4 +1,5 @@
 import { IsBoolean, IsDate, IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { Column } from "typeorm";
 
 export class CreateCandidateDto {
     @IsNotEmpty()
@@ -23,6 +24,7 @@ export class CreateCandidateDto {
 
     @IsNotEmpty()
     @IsDate()
+    @Column({ type: "date" })
     birthday: Date;
 
     @IsNotEmpty()
