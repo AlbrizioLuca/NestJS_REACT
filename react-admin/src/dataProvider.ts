@@ -87,9 +87,11 @@ export const dataProvider: DataProvider = {
         }).then(({ json }) => ({ data: json })),
 
     deleteMany: async (resource, params) => {
+        
         const query = {
             filter: JSON.stringify({ id: params.ids}),
         };
+        console.log(resource, params, query);
         const { json } = await httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
             method: 'DELETE',
         });

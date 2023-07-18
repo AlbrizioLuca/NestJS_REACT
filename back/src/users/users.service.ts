@@ -36,4 +36,9 @@ export class UsersService {
     const userDeleted = await this.usersRepository.delete(id)
     return userDeleted;
   }
+
+  async removeMany(ids: [number, number]) {
+    const usersDeleted = await this.usersRepository.delete(ids)
+    return usersDeleted;
+  }
 }
