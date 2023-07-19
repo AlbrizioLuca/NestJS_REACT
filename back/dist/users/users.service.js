@@ -41,6 +41,10 @@ let UsersService = exports.UsersService = class UsersService {
         const userDeleted = await this.usersRepository.delete(id);
         return userDeleted;
     }
+    async removeMany(ids) {
+        const usersDeleted = await this.usersRepository.delete(ids);
+        return usersDeleted;
+    }
 };
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),

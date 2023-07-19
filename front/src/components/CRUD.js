@@ -11,6 +11,7 @@ const CrudComponent = ({ param, fields }) => {
     const [newData, setNewData] = useState([fields]);
     const [selectedData, setSelectedData] = useState({});
 
+    console.log({ data });
     const url = `http://localhost:3000/${param}`;
 
     useEffect(() => {
@@ -52,13 +53,13 @@ const CrudComponent = ({ param, fields }) => {
         if (window.confirm('Êtes-vous sûr de vouloir modifier cette donnée ?')) {
             try {
                 const response = await fetch(url + `/${editingData.id}`,
-                 {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(editingData),
-                });
+                    {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(editingData),
+                    });
                 if (response.ok) {
                     const updatedData = data.map(item => item.id === editingData.id ? editingData : item);
                     setData(updatedData);
@@ -76,8 +77,8 @@ const CrudComponent = ({ param, fields }) => {
                 const response = await fetch(url + `/${selectedData.id}`, {
                     method: 'DELETE',
                 });
-                if (response.ok){
-                    setData((data) => 
+                if (response.ok) {
+                    setData((data) =>
                         data.filter((item) => item.id !== selectedData.id),
                     );
                     setSelectedData(null);
@@ -87,7 +88,7 @@ const CrudComponent = ({ param, fields }) => {
             }
         }
     };
-        
+
     return (
         <>
             <table>
@@ -117,12 +118,31 @@ const CrudComponent = ({ param, fields }) => {
                                         </td>
                                         {fields.map((field, index) => (
                                             <td key={index}>
-                                                <input
-                                                    className="blinking-input"
-                                                    type="text"
-                                                    value={editingData[field.name]}
-                                                    onChange={(e) => setEditingData({ ...editingData, [field.name]: e.target.value })}
-                                                />
+                                                {field.type === 'boolean' ? (
+                                                    <>
+                                                        <input
+                                                            type="radio"
+                                                            name={field.name}
+                                                            value="oui"
+                                                            checked={editingData[field.name] === true}
+                                                            onChange={(e) => setEditingData({ ...editingData, [field.name]: e.target.value === 'oui' })}
+                                                        /> Oui
+                                                        <input
+                                                            type="radio"
+                                                            name={field.name}
+                                                            value="non"
+                                                            checked={editingData[field.name] === false}
+                                                            onChange={(e) => setEditingData({ ...editingData, [field.name]: e.target.value === 'oui' })}
+                                                        /> Non
+                                                    </>
+                                                ) : (
+                                                    <input
+                                                        className="blinking-input"
+                                                        type={field.type}
+                                                        value={field.type === 'boolean' ? (editingData[field.name] ? 'oui' : 'non') : editingData[field.name]}
+                                                        onChange={(e) => setEditingData({ ...editingData, [field.name]: e.target.value })}
+                                                    />
+                                                )}
                                             </td>
                                         ))}
                                         <td><img src={validIcon} alt="Valider" onClick={handleUpdate} /></td>
@@ -138,9 +158,17 @@ const CrudComponent = ({ param, fields }) => {
                                             checked={selectedData && selectedData.id === item.id}
                                         ></input>
                                         </td>
-                                        {fields.map((field, index) => (
-                                            <td key={index}>{item[field.name]}</td>
-                                        ))}
+                                        {fields.map((field, index) => {
+                                            let value = item[field.name]
+                                            if (typeof value === 'boolean') {
+                                                value = value ? 'oui' : 'non';
+                                            }
+                                            return (
+                                                <td key={index}>
+                                                    {value}
+                                                </td>
+                                            )
+                                        })}
                                         <td><img src={editIcon} alt="Update" onClick={() => selectedData && selectedData.id === item.id && setEditingData(item)} /></td>
                                         <td><img src={cancelIcon} alt="Delete" onClick={handleDelete} /></td>
                                     </>
@@ -152,12 +180,31 @@ const CrudComponent = ({ param, fields }) => {
                             <td></td>
                             {fields.map((field, index) => (
                                 <td key={index}>
-                                    <input
-                                        type="text"
-                                        placeholder={field.label}
-                                        onChange={(event) => setNewData({ ...newData, [field.name]: event.target.value })}
-                                        required
-                                    />
+                                    {field.type === 'boolean' ? (
+                                        <>
+                                            <input
+                                                type="radio"
+                                                name={field.name}
+                                                value="oui"
+                                                onChange={(event) => setNewData({ ...newData, [field.name]: event.target.value === 'oui' })}
+                                                required
+                                            /> Oui
+                                            <input
+                                                type="radio"
+                                                name={field.name}
+                                                value="non"
+                                                onChange={(event) => setNewData({ ...newData, [field.name]: event.target.value === 'oui' })}
+                                                required
+                                            /> Non
+                                        </>
+                                    ) : (
+                                        <input
+                                            type={field.type}
+                                            placeholder={field.label}
+                                            onChange={(event) => setNewData({ ...newData, [field.name]: event.target.value })}
+                                            required
+                                        />
+                                    )}
                                 </td>
                             ))}
                             <td><img src={validIcon} alt="Valider" onClick={handleCreate} /></td>

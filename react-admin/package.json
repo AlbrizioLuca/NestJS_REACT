@@ -2,7 +2,7 @@
   "name": "react-admin",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
     "type-check": "tsc --noEmit",
