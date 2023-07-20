@@ -63,7 +63,7 @@ h1, h3, a {
   color: #61dafb;
 }
 
-h2 , li , span , p , form {
+h2 , li , span , p  {
   list-style-type: none;
   color: white;
 }
@@ -78,6 +78,17 @@ table {
 
 table th {
   background-color: #61dafb;
+}
+
+th select {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  text-align: center;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  font-weight: bold;
 }
 
 table tr:first-child {
@@ -96,6 +107,11 @@ table input{
   border: 0;
   background: transparent;
   text-align: center;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  width: 20px;
+  height: 20px;
 }
 
 @keyframes blink {

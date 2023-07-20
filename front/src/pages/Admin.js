@@ -14,14 +14,14 @@ const fieldsByParam = {
         { name: 'firstname', label: 'Prénom' },
         { name: 'lastname', label: 'Nom' },
         { name: 'email', label: 'Email' },
-        { name: 'phone', label: 'Téléphone' }
+        { name: 'phone', label: 'Téléphone',  }
     ],
     candidates: [
         { name: 'firstname', label: 'Prénom' },
         { name: 'lastname', label: 'Nom' },
         { name: 'diploma', label: 'Diplome' },
         { name: 'email', label: 'Email' },
-        { name: 'phone', label: 'Téléphone' },
+        { name: 'phone', label: 'Téléphone', pattern: /^(?:0|\+33 ?|0?0?33 ?|)([1-9] ?(?:[0-9] ?){8})$/i},
         { name: 'birthday', label: 'Naissance', type: 'date' },
         { name: 'vehicle', label: 'Véhiculé' , type: 'boolean' }
     ],
@@ -35,14 +35,7 @@ export default function DisplayCRUD() {
         <>
             <NavBar></NavBar>
             <h1>Bienvenue sur le tableau de bord de l'administrateur</h1>
-            <br/>
-            <select value={param} onChange={(e) => setParam(e.target.value)}>
-                <option value="users">Utilisateurs</option>
-                <option value="clients">Clients</option>
-                <option value="candidates">Candidats</option>
-            </select>
-            <br/>
-            <CRUD param={param} fields={fields}></CRUD>
+            <CRUD param={param} fields={fields} setParam={setParam}></CRUD>
         </>
     );
 }

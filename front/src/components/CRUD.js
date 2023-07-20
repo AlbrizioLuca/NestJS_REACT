@@ -4,7 +4,7 @@ import cancelIcon from '../img/effacer.png';
 import validIcon from '../img/valider.png';
 import annulIcon from '../img/annuler.png';
 
-const CrudComponent = ({ param, fields }) => {
+const CrudComponent = ({ param, fields, setParam }) => {
     const [data, setData] = useState(null);
     const [creatingData, setCreatingData] = useState(false);
     const [editingData, setEditingData] = useState(null);
@@ -29,44 +29,61 @@ const CrudComponent = ({ param, fields }) => {
 
     const handleCreate = async () => {
         if (window.confirm('Êtes-vous sûr de vouloir créer cette donnée ?')) {
-            try {
-                console.log(newData)
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(newData),
-                });
-                if (response.ok) {
-                    const item = await response.json();
-                    setData((data) => [...data, item]);
-                    setCreatingData(false);
+            // Vérification da la validité des données ..
+            if (Object.values(newData).every(value => value && // Tableau des valeurs de newData soumis aux Regex
+                !/^\s*$/.test(value) // != whitespaces
+                && 
+                !/^[.,;:!?]*$/.test(value) // != ponctuation
+            )) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(newData),
+                    });
+                    if (response.ok) {
+                        const item = await response.json();
+                        setData((data) => [...data, item]);
+                        setCreatingData(false);
+                    }
+                } catch (error) {
+                    console.error(error);
                 }
-            } catch (error) {
-                console.error(error);
+            } else {
+                alert('Veuillez remplir tous les champs correctement.');
             }
         }
     };
 
     const handleUpdate = async () => {
         if (window.confirm('Êtes-vous sûr de vouloir modifier cette donnée ?')) {
-            try {
-                const response = await fetch(url + `/${editingData.id}`,
-                    {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(editingData),
-                    });
-                if (response.ok) {
-                    const updatedData = data.map(item => item.id === editingData.id ? editingData : item);
-                    setData(updatedData);
-                    setEditingData(null);
+            // Vérification de la validité des données
+            if (Object.values(editingData).every(value => value && // Tableau des valeurs de editingData soumis aux Regex
+                !/^\s*$/.test(value) // != whitespaces
+                && 
+                !/^[.,;:!?]*$/.test(value) // != ponctuation
+            )) {
+                try {
+                    const response = await fetch(url + `/${editingData.id}`,
+                        {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(editingData),
+                        });
+                    if (response.ok) {
+                        const updatedData = data.map(item => item.id === editingData.id ? editingData : item);
+                        setData(updatedData);
+                        setEditingData(null);
+                    }
+                } catch (err) {
+                    console.error(err);
                 }
-            } catch (err) {
-                console.error(err);
+            } else {
+                alert('Veuillez remplir tous les champs correctement.');
             }
         }
     };
@@ -90,11 +107,17 @@ const CrudComponent = ({ param, fields }) => {
     };
 
     return (
-        <>
+        <form>
             <table>
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>
+                            <select value={param} onChange={(e) => setParam(e.target.value)}>
+                                <option value="users">Utilisateurs</option>
+                                <option value="clients">Clients</option>
+                                <option value="candidates">Candidats</option>
+                            </select>
+                        </th>
                         {fields.map((field, index) => (
                             <th key={index}>{field.label}</th>
                         ))}
@@ -119,27 +142,19 @@ const CrudComponent = ({ param, fields }) => {
                                         {fields.map((field, index) => (
                                             <td key={index}>
                                                 {field.type === 'boolean' ? (
-                                                    <>
-                                                        <input
-                                                            type="radio"
-                                                            name={field.name}
-                                                            value="oui"
-                                                            checked={editingData[field.name] === true}
-                                                            onChange={(e) => setEditingData({ ...editingData, [field.name]: e.target.value === 'oui' })}
-                                                        /> Oui
-                                                        <input
-                                                            type="radio"
-                                                            name={field.name}
-                                                            value="non"
-                                                            checked={editingData[field.name] === false}
-                                                            onChange={(e) => setEditingData({ ...editingData, [field.name]: e.target.value === 'oui' })}
-                                                        /> Non
-                                                    </>
+                                                    <input
+                                                        className="blinking-input"
+                                                        type="checkbox"
+                                                        name={field.name}
+                                                        pattern={field.pattern}
+                                                        checked={editingData[field.name]}
+                                                        onChange={(event) => setEditingData({ ...editingData, [field.name]: event.target.checked })}
+                                                    />
                                                 ) : (
                                                     <input
                                                         className="blinking-input"
                                                         type={field.type}
-                                                        value={field.type === 'boolean' ? (editingData[field.name] ? 'oui' : 'non') : editingData[field.name]}
+                                                        value={editingData[field.name]}
                                                         onChange={(e) => setEditingData({ ...editingData, [field.name]: e.target.value })}
                                                     />
                                                 )}
@@ -183,19 +198,11 @@ const CrudComponent = ({ param, fields }) => {
                                     {field.type === 'boolean' ? (
                                         <>
                                             <input
-                                                type="radio"
+                                                type="checkbox"
                                                 name={field.name}
-                                                value="oui"
-                                                onChange={(event) => setNewData({ ...newData, [field.name]: event.target.value === 'oui' })}
+                                                onChange={(event) => setNewData({ ...newData, [field.name]: event.target.checked })}
                                                 required
-                                            /> Oui
-                                            <input
-                                                type="radio"
-                                                name={field.name}
-                                                value="non"
-                                                onChange={(event) => setNewData({ ...newData, [field.name]: event.target.value === 'oui' })}
-                                                required
-                                            /> Non
+                                            /> Oui / Non
                                         </>
                                     ) : (
                                         <input
@@ -214,7 +221,7 @@ const CrudComponent = ({ param, fields }) => {
                 </tbody>
             </table>
             <button onClick={() => setCreatingData(true)}>Ajouter une donnée</button>
-        </>
+        </form>
     );
 };
 
