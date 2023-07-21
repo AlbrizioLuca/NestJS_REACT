@@ -13,6 +13,7 @@ const CrudComponent = ({ param, fields, setParam }) => {
 
     console.log({ data });
     const url = `http://localhost:3000/${param}`;
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,18 +31,24 @@ const CrudComponent = ({ param, fields, setParam }) => {
     const handleCreate = async () => {
         if (window.confirm('Êtes-vous sûr de vouloir créer cette donnée ?')) {
             // Vérification da la validité des données ..
-            if (Object.values(newData).every(value => value && // Tableau des valeurs de newData soumis aux Regex
-                !/^\s*$/.test(value) // != whitespaces
-                && 
-                !/^[.,;:!?]*$/.test(value) // != ponctuation
-            )) {
+            if (fields.every(field => {
+                const value = typeof newData[field.name] === 'string' ? newData[field.name].trim() : newData[field.name];                // Utilise la regex spécifique du champ si elle existe, sinon la regex par défaut
+                const checkPattern = new RegExp(field.pattern);
+                return value && checkPattern.test(value);
+            })) {
                 try {
+                    const cleanValue = {...newData};
+                    fields.forEach(field => {
+                        if (typeof cleanValue[field.name] === 'string') {
+                            cleanValue[field.name] = cleanValue[field.name].trim();
+                        }
+                    })
                     const response = await fetch(url, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify(newData),
+                        body: JSON.stringify(cleanValue),
                     });
                     if (response.ok) {
                         const item = await response.json();
@@ -57,25 +64,32 @@ const CrudComponent = ({ param, fields, setParam }) => {
         }
     };
 
-    const handleUpdate = async () => {
+    const handleUpdate = async (event) => {
+        event.preventDefault()
         if (window.confirm('Êtes-vous sûr de vouloir modifier cette donnée ?')) {
-            // Vérification de la validité des données
-            if (Object.values(editingData).every(value => value && // Tableau des valeurs de editingData soumis aux Regex
-                !/^\s*$/.test(value) // != whitespaces
-                && 
-                !/^[.,;:!?]*$/.test(value) // != ponctuation
-            )) {
-                try {
+
+            if (fields.every(field => {
+                const value = typeof editingData[field.name] === 'string' ? editingData[field.name].trim() : editingData[field.name];
+                const pattern = new RegExp(field.pattern);
+                return value && pattern.test(value);
+            })) {
+                const cleanValue = {...editingData};
+                    fields.forEach(field => {
+                        if (typeof cleanValue[field.name] === 'string') {
+                            cleanValue[field.name] = cleanValue[field.name].trim();
+                        }
+                    })
+                    try {
                     const response = await fetch(url + `/${editingData.id}`,
                         {
                             method: 'PATCH',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify(editingData),
+                            body: JSON.stringify(cleanValue),
                         });
                     if (response.ok) {
-                        const updatedData = data.map(item => item.id === editingData.id ? editingData : item);
+                        const updatedData = data.map(item => item.id === editingData.id ? cleanValue : item);
                         setData(updatedData);
                         setEditingData(null);
                     }
@@ -146,7 +160,6 @@ const CrudComponent = ({ param, fields, setParam }) => {
                                                         className="blinking-input"
                                                         type="checkbox"
                                                         name={field.name}
-                                                        pattern={field.pattern}
                                                         checked={editingData[field.name]}
                                                         onChange={(event) => setEditingData({ ...editingData, [field.name]: event.target.checked })}
                                                     />
@@ -154,14 +167,20 @@ const CrudComponent = ({ param, fields, setParam }) => {
                                                     <input
                                                         className="blinking-input"
                                                         type={field.type}
+                                                        pattern={field.pattern}
+                                                        title= {field.regexInfo}
                                                         value={editingData[field.name]}
                                                         onChange={(e) => setEditingData({ ...editingData, [field.name]: e.target.value })}
                                                     />
                                                 )}
                                             </td>
                                         ))}
-                                        <td><img src={validIcon} alt="Valider" onClick={handleUpdate} /></td>
-                                        <td><img src={annulIcon} alt="Annuler" onClick={() => window.location.reload()} /></td>
+                                        <td>
+                                            <img src={validIcon} alt="Valider" onClick={handleUpdate} />
+                                        </td>
+                                        <td>
+                                            <img src={annulIcon} alt="Annuler" onClick={() => window.location.reload()} />
+                                        </td>
                                     </>
                                 ) : (
                                     <>
