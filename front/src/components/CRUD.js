@@ -8,13 +8,12 @@ const CrudComponent = ({ param, fields, setParam }) => {
     const [data, setData] = useState(null);
     const [creatingData, setCreatingData] = useState(false);
     const [editingData, setEditingData] = useState(null);
-    const [newData, setNewData] = useState([fields]);
+    const [newData, setNewData] = useState({ vehicle: false, ...fields });
     const [selectedData, setSelectedData] = useState({});
 
-    console.log({ data });
     const url = `http://localhost:3000/${param}`;
-    
 
+    // console.log(newData);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -34,10 +33,10 @@ const CrudComponent = ({ param, fields, setParam }) => {
             if (fields.every(field => {
                 const value = typeof newData[field.name] === 'string' ? newData[field.name].trim() : newData[field.name];                // Utilise la regex spécifique du champ si elle existe, sinon la regex par défaut
                 const checkPattern = new RegExp(field.pattern);
-                return value && checkPattern.test(value);
+                return field.type === 'boolean' || (value && checkPattern.test(value));
             })) {
                 try {
-                    const cleanValue = {...newData};
+                    const cleanValue = { ...newData };
                     fields.forEach(field => {
                         if (typeof cleanValue[field.name] === 'string') {
                             cleanValue[field.name] = cleanValue[field.name].trim();
@@ -71,15 +70,15 @@ const CrudComponent = ({ param, fields, setParam }) => {
             if (fields.every(field => {
                 const value = typeof editingData[field.name] === 'string' ? editingData[field.name].trim() : editingData[field.name];
                 const pattern = new RegExp(field.pattern);
-                return value && pattern.test(value);
+                return field.type === 'boolean' || (value && pattern.test(value));
             })) {
-                const cleanValue = {...editingData};
-                    fields.forEach(field => {
-                        if (typeof cleanValue[field.name] === 'string') {
-                            cleanValue[field.name] = cleanValue[field.name].trim();
-                        }
-                    })
-                    try {
+                const cleanValue = { ...editingData };
+                fields.forEach(field => {
+                    if (typeof cleanValue[field.name] === 'string') {
+                        cleanValue[field.name] = cleanValue[field.name].trim();
+                    }
+                })
+                try {
                     const response = await fetch(url + `/${editingData.id}`,
                         {
                             method: 'PATCH',
@@ -121,7 +120,7 @@ const CrudComponent = ({ param, fields, setParam }) => {
     };
 
     return (
-        <form>
+        <div className='table-container'>
             <table>
                 <thead>
                     <tr>
@@ -157,19 +156,25 @@ const CrudComponent = ({ param, fields, setParam }) => {
                                             <td key={index}>
                                                 {field.type === 'boolean' ? (
                                                     <input
-                                                        className="blinking-input"
                                                         type="checkbox"
-                                                        name={field.name}
-                                                        checked={editingData[field.name]}
+                                                        checked={editingData && editingData[field.name]}
                                                         onChange={(event) => setEditingData({ ...editingData, [field.name]: event.target.checked })}
                                                     />
+                                                ) : field.type === 'select' ? (
+                                                    <select
+                                                        className="blinking-input"
+                                                        value={editingData && editingData[field.name]}
+                                                        onChange={(event) => setEditingData({ ...editingData, [field.name]: event.target.value })}
+                                                    >
+                                                        {field.options.map((option, index) => (
+                                                            <option key={index} value={option.value}>{option.label}</option>
+                                                        ))}
+                                                    </select>
                                                 ) : (
                                                     <input
                                                         className="blinking-input"
                                                         type={field.type}
-                                                        pattern={field.pattern}
-                                                        title= {field.regexInfo}
-                                                        value={editingData[field.name]}
+                                                        value={editingData && editingData[field.name]}
                                                         onChange={(e) => setEditingData({ ...editingData, [field.name]: e.target.value })}
                                                     />
                                                 )}
@@ -220,9 +225,18 @@ const CrudComponent = ({ param, fields, setParam }) => {
                                                 type="checkbox"
                                                 name={field.name}
                                                 onChange={(event) => setNewData({ ...newData, [field.name]: event.target.checked })}
-                                                required
                                             /> Oui / Non
                                         </>
+                                    ) : field.type === 'select' ? (
+                                        <select
+                                            name={field.name}
+                                            onChange={(event) => setNewData({ ...newData, [field.name]: event.target.value })}
+                                            required
+                                        >
+                                            {field.options.map((option, index) => (
+                                                <option key={index} value={option.value}>{option.label}</option>
+                                            ))}
+                                        </select>
                                     ) : (
                                         <input
                                             type={field.type}
@@ -240,7 +254,7 @@ const CrudComponent = ({ param, fields, setParam }) => {
                 </tbody>
             </table>
             <button onClick={() => setCreatingData(true)}>Ajouter une donnée</button>
-        </form>
+        </div>
     );
 };
 
