@@ -23,11 +23,8 @@ let UsersController = exports.UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    create(createUserDto) {
+    createOrSignUp(createUserDto) {
         return this.usersService.create(createUserDto);
-    }
-    signIn(authCredentialsDTO) {
-        return this.usersService.signIn(authCredentialsDTO);
     }
     findAll() {
         return this.usersService.findAll();
@@ -41,23 +38,18 @@ let UsersController = exports.UsersController = class UsersController {
     remove(id) {
         return this.usersService.remove(+id);
     }
+    signIn(authCredentialsDTO) {
+        return this.usersService.signIn(authCredentialsDTO);
+    }
 };
 __decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Créer UN utilisateur' }),
-    (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
+    (0, swagger_1.ApiOperation)({ summary: 'Créer ou enregistrer UN utilisateur' }),
+    (0, common_1.Post)(['/', '/sign-up']),
+    __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", void 0)
-], UsersController.prototype, "create", null);
-__decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Connecter UN utilisateur' }),
-    (0, common_1.Post)("/sign-in"),
-    __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [auth_credentials_dto_1.AuthCredentialsDTO]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "signIn", null);
+], UsersController.prototype, "createOrSignUp", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Récupérer TOUS les utilisateurs' }),
     (0, common_1.Get)(),
@@ -90,6 +82,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "remove", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Connecter UN utilisateur' }),
+    (0, common_1.Post)("/sign-in"),
+    __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [auth_credentials_dto_1.AuthCredentialsDTO]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "signIn", null);
 exports.UsersController = UsersController = __decorate([
     (0, swagger_1.ApiTags)('Utilisateurs'),
     (0, common_1.Controller)('users'),

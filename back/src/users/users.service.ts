@@ -6,13 +6,17 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { hash, compare } from 'bcryptjs';
 import { AuthCredentialsDTO } from './dto/auth-credentials.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private usersRepository : Repository<User>
+    private usersRepository : Repository<User>,
+    private readonly JwtService : JwtService,
   ) {}
+
+  // ------------------------------------------  METHODES CRUD --------------------------------------------- 
 
   async create(createUserDto: CreateUserDto) {
     // Encoder le mot de passe
@@ -21,25 +25,7 @@ export class UsersService {
     const newUser = await this.usersRepository.save(createUserDto)
     return newUser;
   }
-
-
-  async signIn(authCredentialsDTO: AuthCredentialsDTO){
-    let user : User;
-    const email = authCredentialsDTO.email;
-    try {
-      user = await this.usersRepository.findOneBy({ email : email },);
-    } catch (error) {
-      throw new NotFoundException(`Aucun utilisateur trouvé avec cet email : ${email} `)
-    }
-    const passwordMatch = await compare(authCredentialsDTO.password, user.password);
   
-    if (!passwordMatch) {
-      throw new NotFoundException('Les données fournies sont invalides')    
-    }
-    return {message: `Vous êtes connecté avec succès` }
-  }
-
-
   async findAll() {
     const users = await this.usersRepository.find()
     return users;
@@ -64,4 +50,30 @@ export class UsersService {
     await this.usersRepository.delete(id)
     return user;
   }
+
+  // -----------------------  ACCESS JWT TOKEN ----------------------------------------------------
+
+  private createAuthenticationToken(userId: number, email: string): string{
+    return this.JwtService.sign({ userId, email }, {secret: "secret"}); // ! à définir dans une variable d'env et ne pas afficher en clair !!
+  }
+  
+  async signIn(authCredentialsDTO: AuthCredentialsDTO){
+    let user : User;
+    const email = authCredentialsDTO.email;
+    try {
+      user = await this.usersRepository.findOneBy({ email : email });
+    } catch (error) {
+      throw new NotFoundException(`Aucun utilisateur trouvé avec cet email : ${email} `)
+    }
+    const passwordMatch = await compare(authCredentialsDTO.password, user.password);
+  
+    if (!passwordMatch) {
+      throw new NotFoundException('Les données fournies sont invalides')    
+    }
+
+    const token = this.createAuthenticationToken(user.id, user.email);
+
+    return {token}
+  }
+
 }

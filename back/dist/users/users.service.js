@@ -18,29 +18,16 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const user_entity_1 = require("./entities/user.entity");
 const bcryptjs_1 = require("bcryptjs");
+const jwt_1 = require("@nestjs/jwt");
 let UsersService = exports.UsersService = class UsersService {
-    constructor(usersRepository) {
+    constructor(usersRepository, JwtService) {
         this.usersRepository = usersRepository;
+        this.JwtService = JwtService;
     }
     async create(createUserDto) {
         createUserDto.password = await (0, bcryptjs_1.hash)(createUserDto.password, 10);
         const newUser = await this.usersRepository.save(createUserDto);
         return newUser;
-    }
-    async signIn(authCredentialsDTO) {
-        let user;
-        const email = authCredentialsDTO.email;
-        try {
-            user = await this.usersRepository.findOneBy({ email: email });
-        }
-        catch (error) {
-            throw new common_1.NotFoundException(`Aucun utilisateur trouvé avec cet email : ${email} `);
-        }
-        const passwordMatch = await (0, bcryptjs_1.compare)(authCredentialsDTO.password, user.password);
-        if (!passwordMatch) {
-            throw new common_1.NotFoundException('Les données fournies sont invalides');
-        }
-        return { message: `Vous êtes connecté avec succès` };
     }
     async findAll() {
         const users = await this.usersRepository.find();
@@ -63,10 +50,30 @@ let UsersService = exports.UsersService = class UsersService {
         await this.usersRepository.delete(id);
         return user;
     }
+    createAuthenticationToken(userId, email) {
+        return this.JwtService.sign({ userId, email }, { secret: "secret" });
+    }
+    async signIn(authCredentialsDTO) {
+        let user;
+        const email = authCredentialsDTO.email;
+        try {
+            user = await this.usersRepository.findOneBy({ email: email });
+        }
+        catch (error) {
+            throw new common_1.NotFoundException(`Aucun utilisateur trouvé avec cet email : ${email} `);
+        }
+        const passwordMatch = await (0, bcryptjs_1.compare)(authCredentialsDTO.password, user.password);
+        if (!passwordMatch) {
+            throw new common_1.NotFoundException('Les données fournies sont invalides');
+        }
+        const token = this.createAuthenticationToken(user.id, user.email);
+        return { token };
+    }
 };
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        jwt_1.JwtService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

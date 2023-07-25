@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UseGuards, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -8,25 +8,12 @@ import { AuthCredentialsDTO } from './dto/auth-credentials.dto';
 @ApiTags('Utilisateurs')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
-  @ApiOperation({ summary: 'Créer UN utilisateur' })
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  constructor(private readonly usersService: UsersService) { }
+  @ApiOperation({ summary: 'Créer ou enregistrer UN utilisateur' })
+  @Post(['/', '/sign-up'])
+  createOrSignUp(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-
-  // @ApiOperation({ summary: 'Enregistrer UN utilisateur' })
-  // @Post("/sign-up")
-  // signUp(@Body(ValidationPipe) createUserDto: CreateUserDto) {
-  //   return this.usersService.create(createUserDto);
-  // }
-
-  @ApiOperation({ summary: 'Connecter UN utilisateur' })
-  @Post("/sign-in")
-  signIn(@Body(ValidationPipe) authCredentialsDTO: AuthCredentialsDTO) {
-  // const { email, password } = authCredentialsDTO;
-  return this.usersService.signIn(authCredentialsDTO);
-}
 
   @ApiOperation({ summary: 'Récupérer TOUS les utilisateurs' })
   @Get()
@@ -51,4 +38,12 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+
+  @ApiOperation({ summary: 'Connecter UN utilisateur' })
+  @Post("/sign-in")
+  signIn(@Body(ValidationPipe) authCredentialsDTO: AuthCredentialsDTO) {
+    // const { email, password } = authCredentialsDTO;
+    return this.usersService.signIn(authCredentialsDTO);
+  }
+
 }
