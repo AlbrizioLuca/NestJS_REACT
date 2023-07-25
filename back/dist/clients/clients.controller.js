@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const clients_service_1 = require("./clients.service");
 const create_client_dto_1 = require("./dto/create-client.dto");
 const update_client_dto_1 = require("./dto/update-client.dto");
+const swagger_1 = require("@nestjs/swagger");
 let ClientsController = exports.ClientsController = class ClientsController {
     constructor(clientsService) {
         this.clientsService = clientsService;
@@ -38,6 +39,7 @@ let ClientsController = exports.ClientsController = class ClientsController {
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Créer UN client' }),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -45,12 +47,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ClientsController.prototype, "create", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Récupérer TOUS les clients' }),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ClientsController.prototype, "findAll", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Récupérer UN seul client' }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -58,6 +62,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ClientsController.prototype, "findOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Modifier UN seul client' }),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -66,6 +71,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ClientsController.prototype, "update", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Supprimer UN seul client' }),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -73,6 +79,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ClientsController.prototype, "remove", null);
 exports.ClientsController = ClientsController = __decorate([
+    (0, swagger_1.ApiTags)('Clients'),
     (0, common_1.Controller)('clients'),
     __metadata("design:paramtypes", [clients_service_1.ClientsService])
 ], ClientsController);

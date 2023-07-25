@@ -7,6 +7,6 @@ export declare class CandidatesController {
     create(createCandidateDto: CreateCandidateDto): Promise<CreateCandidateDto & import("./entities/candidate.entity").Candidate>;
     findAll(): Promise<import("./entities/candidate.entity").Candidate[]>;
     findOne(id: string): Promise<import("./entities/candidate.entity").Candidate>;
-    update(id: string, updateCandidateDto: UpdateCandidateDto): Promise<import("typeorm").UpdateResult>;
-    remove(id: string): Promise<import("typeorm").DeleteResult>;
+    update(id: string, updateCandidateDto: UpdateCandidateDto): Promise<import("./entities/candidate.entity").Candidate>;
+    remove(id: string): Promise<import("./entities/candidate.entity").Candidate>;
 }

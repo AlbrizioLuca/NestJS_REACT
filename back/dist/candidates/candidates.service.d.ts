@@ -8,6 +8,6 @@ export declare class CandidatesService {
     create(createCandidateDto: CreateCandidateDto): Promise<CreateCandidateDto & Candidate>;
     findAll(): Promise<Candidate[]>;
     findOne(id: number): Promise<Candidate>;
-    update(id: number, updateCandidateDto: UpdateCandidateDto): Promise<import("typeorm").UpdateResult>;
-    remove(id: number): Promise<import("typeorm").DeleteResult>;
+    update(id: number, updateCandidateDto: UpdateCandidateDto): Promise<Candidate>;
+    remove(id: number): Promise<Candidate>;
 }

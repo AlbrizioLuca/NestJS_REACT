@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Client } from './entities/client.entity';
@@ -24,16 +24,21 @@ export class ClientsService {
 
   async findOne(id: number) {
     const client = await this.clientsRepository.findOneBy({ id: id });
+    if(!client){
+      throw new NotFoundException(`Aucun candidat trouvé avec l'id renseigné: ${id}`)
+    }
     return client;
   }
 
-  async update(id: number, updateClientDto: UpdateClientDto) {
-    const clientUpdated = await this.clientsRepository.update(id, updateClientDto)
-    return clientUpdated;
+  async update(id: number, updateCandidateDto: UpdateClientDto) {
+    const client = await this.findOne(id)
+    await this.clientsRepository.update(id, updateCandidateDto)
+    return client;
   }
 
   async remove(id: number) {
-    const clientDeleted = await this.clientsRepository.delete(id)
-    return clientDeleted;
+    const client = await this.findOne(id)
+    await this.clientsRepository.delete(id)
+    return client;
   }
 }

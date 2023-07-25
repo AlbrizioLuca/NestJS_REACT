@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const candidates_service_1 = require("./candidates.service");
 const create_candidate_dto_1 = require("./dto/create-candidate.dto");
 const update_candidate_dto_1 = require("./dto/update-candidate.dto");
+const swagger_1 = require("@nestjs/swagger");
 let CandidatesController = exports.CandidatesController = class CandidatesController {
     constructor(candidatesService) {
         this.candidatesService = candidatesService;
@@ -38,6 +39,7 @@ let CandidatesController = exports.CandidatesController = class CandidatesContro
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Créer UN candidat' }),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -45,12 +47,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CandidatesController.prototype, "create", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Récupérer TOUS les candidats' }),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], CandidatesController.prototype, "findAll", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Récupérer UN seul candidat' }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -58,6 +62,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CandidatesController.prototype, "findOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Modifier UN seul candidat' }),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -66,6 +71,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CandidatesController.prototype, "update", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Supprimer UN seul candidat' }),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -73,6 +79,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CandidatesController.prototype, "remove", null);
 exports.CandidatesController = CandidatesController = __decorate([
+    (0, swagger_1.ApiTags)('Candidats'),
     (0, common_1.Controller)('candidates'),
     __metadata("design:paramtypes", [candidates_service_1.CandidatesService])
 ], CandidatesController);

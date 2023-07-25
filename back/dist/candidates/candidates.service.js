@@ -31,15 +31,20 @@ let CandidatesService = exports.CandidatesService = class CandidatesService {
     }
     async findOne(id) {
         const candidate = await this.candidatesRepository.findOneBy({ id: id });
+        if (!candidate) {
+            throw new common_1.NotFoundException(`Aucun candidat trouvé avec l'id renseigné: ${id}`);
+        }
         return candidate;
     }
     async update(id, updateCandidateDto) {
-        const candidateUpdated = await this.candidatesRepository.update(id, updateCandidateDto);
-        return candidateUpdated;
+        const candidate = await this.findOne(id);
+        await this.candidatesRepository.update(id, updateCandidateDto);
+        return candidate;
     }
     async remove(id) {
-        const candidateDeleted = await this.candidatesRepository.delete(id);
-        return candidateDeleted;
+        const candidate = await this.findOne(id);
+        await this.candidatesRepository.delete(id);
+        return candidate;
     }
 };
 exports.CandidatesService = CandidatesService = __decorate([

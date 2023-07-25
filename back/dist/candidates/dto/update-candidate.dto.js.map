@@ -1,1 +1,1 @@
-{"version":3,"file":"update-candidate.dto.js","sourceRoot":"","sources":["../../../src/candidates/dto/update-candidate.dto.ts"],"names":[],"mappings":";;;AAAA,uDAAmD;AACnD,iEAA4D;AAE5D,MAAa,kBAAmB,SAAQ,IAAA,0BAAW,EAAC,yCAAkB,CAAC;CAAG;AAA1E,gDAA0E"}
+{"version":3,"file":"update-candidate.dto.js","sourceRoot":"","sources":["../../../src/candidates/dto/update-candidate.dto.ts"],"names":[],"mappings":";;;AAAA,iEAA4D;AAE5D,MAAa,kBAAmB,SAAQ,yCAAkB;CAAG;AAA7D,gDAA6D"}

@@ -9,35 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUserDto = void 0;
+exports.AuthCredentialsDTO = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-class CreateUserDto {
+class AuthCredentialsDTO {
 }
-exports.CreateUserDto = CreateUserDto;
-__decorate([
-    (0, swagger_1.ApiProperty)({ example: 'Pierre' }),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "firstname", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ example: 'Leroux' }),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "lastname", void 0);
+exports.AuthCredentialsDTO = AuthCredentialsDTO;
 __decorate([
     (0, swagger_1.ApiProperty)({ example: 'pierre_leroux@example.com' }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "email", void 0);
+], AuthCredentialsDTO.prototype, "email", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ example: '1MotdePasse?', minLength: 8 }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.Length)(8, 255),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "password", void 0);
-//# sourceMappingURL=create-user.dto.js.map
+], AuthCredentialsDTO.prototype, "password", void 0);
+//# sourceMappingURL=auth-credentials.dto.js.map

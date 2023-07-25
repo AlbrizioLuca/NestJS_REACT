@@ -17,13 +17,30 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const user_entity_1 = require("./entities/user.entity");
+const bcryptjs_1 = require("bcryptjs");
 let UsersService = exports.UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
     async create(createUserDto) {
+        createUserDto.password = await (0, bcryptjs_1.hash)(createUserDto.password, 10);
         const newUser = await this.usersRepository.save(createUserDto);
         return newUser;
+    }
+    async signIn(authCredentialsDTO) {
+        let user;
+        const email = authCredentialsDTO.email;
+        try {
+            user = await this.usersRepository.findOneBy({ email: email });
+        }
+        catch (error) {
+            throw new common_1.NotFoundException(`Aucun utilisateur trouvé avec cet email : ${email} `);
+        }
+        const passwordMatch = await (0, bcryptjs_1.compare)(authCredentialsDTO.password, user.password);
+        if (!passwordMatch) {
+            throw new common_1.NotFoundException('Les données fournies sont invalides');
+        }
+        return { message: `Vous êtes connecté avec succès` };
     }
     async findAll() {
         const users = await this.usersRepository.find();
@@ -31,19 +48,20 @@ let UsersService = exports.UsersService = class UsersService {
     }
     async findOne(id) {
         const user = await this.usersRepository.findOneBy({ id: id });
+        if (!user) {
+            throw new common_1.NotFoundException(`Aucun candidat trouvé avec l'id renseigné: ${id}`);
+        }
         return user;
     }
-    async update(id, updateUserDto) {
-        const userUpdated = await this.usersRepository.update(id, updateUserDto);
-        return userUpdated;
+    async update(id, updateCandidateDto) {
+        const user = await this.findOne(id);
+        await this.usersRepository.update(id, updateCandidateDto);
+        return user;
     }
     async remove(id) {
-        const userDeleted = await this.usersRepository.delete(id);
-        return userDeleted;
-    }
-    async removeMany(ids) {
-        const usersDeleted = await this.usersRepository.delete(ids);
-        return usersDeleted;
+        const user = await this.findOne(id);
+        await this.usersRepository.delete(id);
+        return user;
     }
 };
 exports.UsersService = UsersService = __decorate([

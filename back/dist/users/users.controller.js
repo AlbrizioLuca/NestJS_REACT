@@ -17,12 +17,17 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
+const swagger_1 = require("@nestjs/swagger");
+const auth_credentials_dto_1 = require("./dto/auth-credentials.dto");
 let UsersController = exports.UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
     create(createUserDto) {
         return this.usersService.create(createUserDto);
+    }
+    signIn(authCredentialsDTO) {
+        return this.usersService.signIn(authCredentialsDTO);
     }
     findAll() {
         return this.usersService.findAll();
@@ -38,6 +43,7 @@ let UsersController = exports.UsersController = class UsersController {
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Créer UN utilisateur' }),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -45,12 +51,22 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "create", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Connecter UN utilisateur' }),
+    (0, common_1.Post)("/sign-in"),
+    __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [auth_credentials_dto_1.AuthCredentialsDTO]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "signIn", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Récupérer TOUS les utilisateurs' }),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findAll", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Récupérer UN utilisateur' }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -58,6 +74,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Modifier UN utilisateur' }),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -66,6 +83,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "update", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Supprimer UN utilisateur' }),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -73,6 +91,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "remove", null);
 exports.UsersController = UsersController = __decorate([
+    (0, swagger_1.ApiTags)('Utilisateurs'),
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
