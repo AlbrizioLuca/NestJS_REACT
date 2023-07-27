@@ -14,7 +14,7 @@ const CrudComponent = ({ param, fields, setParam }) => {
     const [selectedData, setSelectedData] = useState({});
     const [showPassword, setShowPassword] = useState(false);
 
-    const url = `http://localhost:3000/${param}`;
+    const url = `http://localhost:5000/${param}`;
 
     // console.log(newData);
     useEffect(() => {
