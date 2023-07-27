@@ -3,6 +3,8 @@ import editIcon from '../img/editer.png';
 import cancelIcon from '../img/effacer.png';
 import validIcon from '../img/valider.png';
 import annulIcon from '../img/annuler.png';
+import showPW from '../img/pw-show.png';
+import hidePW from '../img/pw-hide.png';
 
 const CrudComponent = ({ param, fields, setParam }) => {
     const [data, setData] = useState(null);
@@ -10,6 +12,7 @@ const CrudComponent = ({ param, fields, setParam }) => {
     const [editingData, setEditingData] = useState(null);
     const [newData, setNewData] = useState({ vehicle: false, ...fields });
     const [selectedData, setSelectedData] = useState({});
+    const [showPassword, setShowPassword] = useState(false);
 
     const url = `http://localhost:3000/${param}`;
 
@@ -170,6 +173,21 @@ const CrudComponent = ({ param, fields, setParam }) => {
                                                             <option key={index} value={option.value}>{option.label}</option>
                                                         ))}
                                                     </select>
+                                                ) : field.type === 'password' ? (
+                                                    <>
+                                                        <input
+                                                            type={showPassword ? 'text' : 'password'}
+                                                            className="blinking-input inputPassword"
+                                                            placeholder={field.label}
+                                                            onChange={(event) => setNewData({ ...newData, [field.name]: event.target.value })}
+                                                            required
+                                                        />
+                                                        <img
+                                                            src={showPassword ? hidePW : showPW}
+                                                            alt={showPassword ? 'Cacher' : 'Montrer'}
+                                                            onClick={() => setShowPassword(!showPassword)}
+                                                        />
+                                                    </>
                                                 ) : (
                                                     <input
                                                         className="blinking-input"
@@ -199,9 +217,12 @@ const CrudComponent = ({ param, fields, setParam }) => {
                                         </td>
                                         {fields.map((field, index) => {
                                             let value = item[field.name]
-                                            if (typeof value === 'boolean') {
-                                                value = value ? 'oui' : 'non';
-                                            }
+                                            if (field.name === 'password') {
+                                                value = '••••••••';
+                                            } else
+                                                if (typeof value === 'boolean') {
+                                                    value = value ? 'oui' : 'non';
+                                                }
                                             return (
                                                 <td key={index}>
                                                     {value}
@@ -237,6 +258,21 @@ const CrudComponent = ({ param, fields, setParam }) => {
                                                 <option key={index} value={option.value}>{option.label}</option>
                                             ))}
                                         </select>
+                                    ) : field.type === 'password' ? (
+                                        <>
+                                            <input
+                                                type={showPassword ? 'text' : 'password'}
+                                                className="blinking-input inputPassword"
+                                                placeholder={field.label}
+                                                onChange={(event) => setNewData({ ...newData, [field.name]: event.target.value })}
+                                                required
+                                            />
+                                            <img
+                                                src={showPassword ? hidePW : showPW}
+                                                alt={showPassword ? 'Cacher' : 'Montrer'}
+                                                onClick={() => setShowPassword(!showPassword)}
+                                            />
+                                        </>
                                     ) : (
                                         <input
                                             type={field.type}

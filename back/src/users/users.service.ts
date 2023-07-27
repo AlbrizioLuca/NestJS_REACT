@@ -41,6 +41,7 @@ export class UsersService {
 
   async update(id: number, updateCandidateDto: UpdateUserDto) {
     const user = await this.findOne(id)
+    updateCandidateDto.password = await hash(updateCandidateDto.password, 10);
     await this.usersRepository.update(id, updateCandidateDto)
     return user;
   }

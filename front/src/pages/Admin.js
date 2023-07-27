@@ -11,7 +11,12 @@ const patterns = {
 };
 
 const fieldsByParam = {
-    
+    users: [
+        { name: 'firstname', label: 'Prénom', pattern: patterns.name },
+        { name: 'lastname', label: 'Nom', pattern: patterns.name },
+        { name: 'email', label: 'Email', pattern: patterns.email },
+        { name: 'password', label: 'Mot de passe', type: "password", pattern: patterns.password }
+    ],
     candidates: [
         { name: 'firstname', label: 'Prénom' , pattern: patterns.name },
         { name: 'lastname', label: 'Nom',  pattern: patterns.name },
@@ -30,12 +35,7 @@ const fieldsByParam = {
         { name: 'birthday', label: 'Naissance', type: 'date' },
         { name: 'vehicle', label: 'Véhiculé', type: 'boolean' }
     ],
-    users: [
-        { name: 'firstname', label: 'Prénom', pattern: patterns.name },
-        { name: 'lastname', label: 'Nom', pattern: patterns.name },
-        { name: 'email', label: 'Email', pattern: patterns.email },
-        { name: 'password', label: 'Mot de passe', pattern: patterns.password }
-    ],
+    
     clients: [
         { name: 'enterprise', label: 'Entreprise' , pattern: patterns.enterprise },
         { name: 'firstname', label: 'Prénom' , pattern: patterns.name },

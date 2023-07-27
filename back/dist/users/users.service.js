@@ -42,6 +42,7 @@ let UsersService = exports.UsersService = class UsersService {
     }
     async update(id, updateCandidateDto) {
         const user = await this.findOne(id);
+        updateCandidateDto.password = await (0, bcryptjs_1.hash)(updateCandidateDto.password, 10);
         await this.usersRepository.update(id, updateCandidateDto);
         return user;
     }
