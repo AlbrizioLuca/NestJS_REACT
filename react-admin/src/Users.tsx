@@ -63,12 +63,11 @@ export const UserEdit = () => {
                 <BooleanInput
                     source="changePassword"
                     label="Changer le mot de passe"
-                    onChange={(event) => setChangePassword(event.target.checked)}
+                    onChange={(event) =>
+                        setChangePassword(event.target.checked)}
                 />
-                {changePassword ? (
-                    <PasswordInput source="password" />
-                ) : (
-                    <PasswordInput source="password" disabled />
+                {changePassword && (
+                    <PasswordInput source="password" defaultValue="" />
                 )}
             </SimpleForm>
         </Edit>

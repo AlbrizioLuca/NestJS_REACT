@@ -11,7 +11,12 @@ import {
     SimpleForm,
     TextInput,
     useRecordContext,
-    ReferenceInput
+    ReferenceInput,
+    BooleanInput,
+    DateInput,
+    minValue,
+    SelectInput,
+    BooleanField
 } from "react-admin";
 
 const candidateFilters = [
@@ -20,6 +25,7 @@ const candidateFilters = [
 ];
 
 export const CandidateList = () => {
+
     const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
     return (
         <List filters={candidateFilters}>
@@ -37,7 +43,7 @@ export const CandidateList = () => {
                     <EmailField source="email" />
                     <TextField source="phone" />
                     <TextField source="birthday" />
-                    <TextField source="vehicle" />
+                    <BooleanField source="vehicle" />
                     <EditButton />
                 </Datagrid>
             )}
@@ -50,17 +56,27 @@ const CandidateTitle = () => {
     return <span> Profil {record ? `"${record.firstname + ' ' + record.lastname}"` : ''}</span>;
 };
 
+const diplomaList = [ 
+    { id: '0' , name: 'Sans aucun diplôme'}, 
+    { id: '1' , name: 'BEP / CAP'}, 
+    { id: '2' , name: 'Bac'}, 
+    { id: '3' , name: 'Bac + 2'}, 
+    { id: '4' , name: 'Licence'}, 
+    { id: '5' , name: 'Master'}
+];
+
 export const CandidateEdit = () => (
+    
     <Edit title={<CandidateTitle/>}>
         <SimpleForm>
             <TextInput source="id" disabled />
             <TextInput source="firstname" />
             <TextInput source="lastname" />
-            <TextInput source="diploma" />
+            <SelectInput source="diploma" choices={diplomaList} />
             <TextInput source="email" />
             <TextInput source="phone" />
-            <TextInput source="birthday" />
-            <TextInput source="vehicle" />
+            <DateInput source="birthday" validate={minValue('1930-01-01')} />
+            <BooleanInput source="vehicle" label="Est-il véhiculé ?"/>
         </SimpleForm>
     </Edit>
 );
@@ -70,11 +86,11 @@ export const CandidateCreate = () => (
         <SimpleForm>
             <TextInput source="firstname" />
             <TextInput source="lastname" />
-            <TextInput source="diploma" />
+            <SelectInput source="diploma" choices={diplomaList} />
             <TextInput source="email" />
             <TextInput source="phone" />
-            <TextInput source="birthday" />
-            <TextInput source="vehicle" />
+            <DateInput source="birthday" validate={minValue('1930-01-01')} />
+            <BooleanInput source="vehicle" label="Est-il véhiculé ?"/>
         </SimpleForm>
     </Create>
 );
