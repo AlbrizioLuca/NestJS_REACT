@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { useMediaQuery, Theme } from "@mui/material";
-import { 
+import {
     List,
     SimpleList,
     Datagrid,
@@ -11,7 +12,9 @@ import {
     SimpleForm,
     TextInput,
     useRecordContext,
-    ReferenceInput
+    ReferenceInput,
+    BooleanInput,
+    PasswordInput
 } from "react-admin";
 
 const userFilters = [
@@ -35,7 +38,6 @@ export const UserList = () => {
                     <TextField source="firstname" />
                     <TextField source="lastname" />
                     <EmailField source="email" />
-                    <TextField source="password" />
                     <EditButton />
                 </Datagrid>
             )}
@@ -48,17 +50,30 @@ const UserTitle = () => {
     return <span> Profil {record ? `"${record.firstname + ' ' + record.lastname}"` : ''}</span>;
 };
 
-export const UserEdit = () => (
-    <Edit title={<UserTitle/>}>
-        <SimpleForm>
-            <TextInput source="id" disabled />
-            <TextInput source="firstname" />
-            <TextInput source="lastname" />
-            <TextInput source="email" />
-            <TextInput source="password" />
-        </SimpleForm>
-    </Edit>
-);
+export const UserEdit = () => {
+    const [changePassword, setChangePassword] = useState(false);
+
+    return (
+        <Edit title={<UserTitle />}>
+            <SimpleForm>
+                <TextInput source="id" disabled />
+                <TextInput source="firstname" />
+                <TextInput source="lastname" />
+                <TextInput source="email" />
+                <BooleanInput
+                    source="changePassword"
+                    label="Changer le mot de passe"
+                    onChange={(event) => setChangePassword(event.target.checked)}
+                />
+                {changePassword ? (
+                    <PasswordInput source="password" />
+                ) : (
+                    <PasswordInput source="password" disabled />
+                )}
+            </SimpleForm>
+        </Edit>
+    );
+};
 
 export const UserCreate = () => (
     <Create>
