@@ -16,8 +16,10 @@ import {
     DateInput,
     minValue,
     SelectInput,
-    BooleanField
+    BooleanField,
+    NumberInput
 } from "react-admin";
+import { inputAttributes, validateName, validatePhone, validateEmail} from './inputAttributes';
 
 const candidateFilters = [
     <TextInput source="q" label="Search" alwaysOn />,
@@ -42,6 +44,7 @@ export const CandidateList = () => {
                     <TextField source="lastname" />
                     <EmailField source="email" />
                     <TextField source="phone" />
+                    <TextField source="diploma" />
                     <TextField source="birthday" />
                     <BooleanField source="vehicle" />
                     <EditButton />
@@ -57,12 +60,12 @@ const CandidateTitle = () => {
 };
 
 const diplomaList = [ 
-    { id: '0' , name: 'Sans aucun diplôme'}, 
-    { id: '1' , name: 'BEP / CAP'}, 
-    { id: '2' , name: 'Bac'}, 
-    { id: '3' , name: 'Bac + 2'}, 
-    { id: '4' , name: 'Licence'}, 
-    { id: '5' , name: 'Master'}
+    { id: 'Sans aucun diplôme' , name: 'Sans aucun diplôme'}, 
+    { id: 'BEP / CAP' , name: 'BEP / CAP'}, 
+    { id: 'Bac' , name: 'Bac'}, 
+    { id: 'Bac +2' , name: 'Bac +2'}, 
+    { id: 'Licence' , name: 'Licence'}, 
+    { id: 'Master' , name: 'Master'}
 ];
 
 export const CandidateEdit = () => (
@@ -70,11 +73,11 @@ export const CandidateEdit = () => (
     <Edit title={<CandidateTitle/>}>
         <SimpleForm>
             <TextInput source="id" disabled />
-            <TextInput source="firstname" />
-            <TextInput source="lastname" />
+            <TextInput source="firstname" validate={validateName} title={inputAttributes.title.name} />
+            <TextInput source="lastname" validate={validateName} title={inputAttributes.title.name} />
             <SelectInput source="diploma" choices={diplomaList} />
-            <TextInput source="email" />
-            <TextInput source="phone" />
+            <TextInput source="email" validate={validateEmail} title={inputAttributes.title.email} />
+            <NumberInput source="phone" validate={validatePhone} title={inputAttributes.title.phone} />
             <DateInput source="birthday" validate={minValue('1930-01-01')} />
             <BooleanInput source="vehicle" label="Est-il véhiculé ?"/>
         </SimpleForm>
@@ -84,11 +87,12 @@ export const CandidateEdit = () => (
 export const CandidateCreate = () => (
     <Create>
         <SimpleForm>
-            <TextInput source="firstname" />
-            <TextInput source="lastname" />
+            <TextInput source="id" disabled />
+            <TextInput source="firstname" validate={validateName} title={inputAttributes.title.name} />
+            <TextInput source="lastname" validate={validateName} title={inputAttributes.title.name} />
             <SelectInput source="diploma" choices={diplomaList} />
-            <TextInput source="email" />
-            <TextInput source="phone" />
+            <TextInput source="email" validate={validateEmail} title={inputAttributes.title.email} />
+            <NumberInput source="phone" validate={validatePhone} title={inputAttributes.title.phone} />
             <DateInput source="birthday" validate={minValue('1930-01-01')} />
             <BooleanInput source="vehicle" label="Est-il véhiculé ?"/>
         </SimpleForm>

@@ -16,6 +16,7 @@ import {
     BooleanInput,
     PasswordInput
 } from "react-admin";
+import { inputAttributes, validateName, validateEmail, validatePassword } from './inputAttributes';
 
 const userFilters = [
     <TextInput source="q" label="Search" alwaysOn />,
@@ -57,9 +58,9 @@ export const UserEdit = () => {
         <Edit title={<UserTitle />}>
             <SimpleForm>
                 <TextInput source="id" disabled />
-                <TextInput source="firstname" />
-                <TextInput source="lastname" />
-                <TextInput source="email" />
+                <TextInput source="firstname" validate={validateName} title={inputAttributes.title.name} />
+                <TextInput source="lastname" validate={validateName} title={inputAttributes.title.name} />
+                <TextInput source="email" validate={validateEmail} title={inputAttributes.title.email} />
                 <BooleanInput
                     source="changePassword"
                     label="Changer le mot de passe"
@@ -67,7 +68,7 @@ export const UserEdit = () => {
                         setChangePassword(event.target.checked)}
                 />
                 {changePassword && (
-                    <PasswordInput source="password" defaultValue="" />
+                    <PasswordInput source="password" value="" validate={validatePassword} title={inputAttributes.title.password} />
                 )}
             </SimpleForm>
         </Edit>
@@ -77,10 +78,10 @@ export const UserEdit = () => {
 export const UserCreate = () => (
     <Create>
         <SimpleForm>
-            <TextInput source="firstname" />
-            <TextInput source="lastname" />
-            <TextInput source="email" />
-            <TextInput source="password" />
+            <TextInput source="firstname" validate={validateName} title={inputAttributes.title.name} />
+            <TextInput source="lastname" validate={validateName} title={inputAttributes.title.name} />
+            <TextInput source="email" validate={validateEmail} title={inputAttributes.title.email} />
+            <PasswordInput source="password" validate={validatePassword} title={inputAttributes.title.password} />
         </SimpleForm>
     </Create>
 );

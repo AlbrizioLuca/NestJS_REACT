@@ -1,5 +1,5 @@
 import { useMediaQuery, Theme } from "@mui/material";
-import { 
+import {
     List,
     SimpleList,
     Datagrid,
@@ -11,8 +11,11 @@ import {
     SimpleForm,
     TextInput,
     useRecordContext,
-    ReferenceInput
+    ReferenceInput,
+    NumberInput
 } from "react-admin";
+import { inputAttributes, validateEnterprise, validateName, validatePhone, validateEmail} from './inputAttributes';
+
 
 const clientFilters = [
     <TextInput source="q" label="Search" alwaysOn />,
@@ -50,14 +53,14 @@ const ClientTitle = () => {
 };
 
 export const ClientEdit = () => (
-    <Edit title={<ClientTitle/>}>
+    <Edit title={<ClientTitle />}>
         <SimpleForm>
             <TextInput source="id" disabled />
-            <TextInput source="enterprise" />
-            <TextInput source="firstname" />
-            <TextInput source="lastname" />
-            <TextInput source="email" />
-            <TextInput source="phone" />
+            <TextInput source="enterprise" validate={validateEnterprise} title={inputAttributes.title.enterprise} />
+            <TextInput source="firstname" validate={validateName} title={inputAttributes.title.name} />
+            <TextInput source="lastname" validate={validateName} title={inputAttributes.title.name} />
+            <TextInput source="email" validate={validateEmail} title={inputAttributes.title.email} />
+            <NumberInput source="phone" validate={validatePhone} title={inputAttributes.title.phone} />
         </SimpleForm>
     </Edit>
 );
@@ -65,12 +68,12 @@ export const ClientEdit = () => (
 export const ClientCreate = () => (
     <Create>
         <SimpleForm>
-        <TextInput source="id" disabled />
-            <TextInput source="enterprise" />
-            <TextInput source="firstname" />
-            <TextInput source="lastname" />
-            <TextInput source="email" />
-            <TextInput source="phone" />
+            <TextInput source="id" disabled />
+            <TextInput source="enterprise" validate={validateEnterprise} title={inputAttributes.title.enterprise} />
+            <TextInput source="firstname" validate={validateName} title={inputAttributes.title.name} />
+            <TextInput source="lastname" validate={validateName} title={inputAttributes.title.name} />
+            <TextInput source="email" validate={validateEmail} title={inputAttributes.title.email} />
+            <NumberInput source="phone" validate={validatePhone} title={inputAttributes.title.phone} />
         </SimpleForm>
     </Create>
 );
