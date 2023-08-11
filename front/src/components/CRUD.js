@@ -178,7 +178,7 @@ const CrudComponent = ({ param, fields, setParam }) => {
                 <tbody>
                     {Array.isArray(data) &&
                         data.map((item, index) => (
-                                // Partie MODIFICATION 
+                                //! Partie MODIFICATION 
                             <tr key={index}>
                                 {editingData && editingData.id === item.id ? ( 
                                     // Ajout de l'input radio pour pouvoir sélectionner la ligne à modifier

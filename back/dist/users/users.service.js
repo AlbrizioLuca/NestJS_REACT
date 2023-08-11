@@ -36,11 +36,11 @@ let UsersService = exports.UsersService = class UsersService {
     async findOne(id) {
         const user = await this.usersRepository.findOneBy({ id: id });
         if (!user) {
-            throw new common_1.NotFoundException(`Aucun candidat trouvé avec l'id renseigné: ${id}`);
+            throw new common_1.NotFoundException(`Aucun utilisateur trouvé avec l'id renseigné: ${id}`);
         }
         return user;
     }
-    async update(id, updateCandidateDto) {
+    async update(id, updateUserDto) {
         const user = await this.findOne(id);
         if (updateCandidateDto.password && updateCandidateDto.password !== user.password) {
             updateCandidateDto.password = await (0, bcryptjs_1.hash)(updateCandidateDto.password, 10);

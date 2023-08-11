@@ -34,7 +34,7 @@ export class UsersService {
   async findOne(id: number) {
     const user = await this.usersRepository.findOneBy({ id: id });
     if(!user){
-      throw new NotFoundException(`Aucun candidat trouvé avec l'id renseigné: ${id}`)
+      throw new NotFoundException(`Aucun utilisateur trouvé avec l'id renseigné: ${id}`)
     }
     return user;
   }
