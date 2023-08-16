@@ -5,7 +5,7 @@ import CRUD from '../components/CRUD';
 // Définit les REGEX pour la validation des champs
 const patterns = {
     name: "^(?![- ])[a-zA-ZÀ-ÿ -]*[^- ]$",    
-    enterprise: "^(?![- ])[a-zA-ZÀ-ÿ0-9 -]*[^- ]$",  
+    enterprise: "^(?![- ])[a-zA-ZÀ-ÿ0-9 -]*[^- ]$",
     email: "^\\w[\\w.-_]*@\\w[\\w.-_]*(?:\\.\\w[\\w-]*)+$", 
     password: "^(?=.*[a-zà-ÿ])(?=.*[A-ZÀ-Ÿ])(?=.*\\d)(?=.*[@$!%*?&.])[A-Za-zÀ-ÿ\\d@$!%*?&.]{8,}$", 
     phone: '^\\d{10}$' 
@@ -59,7 +59,7 @@ export default function DisplayCRUD() {
         <>
             <NavBar></NavBar>
             <h1>Bienvenue sur le tableau de bord de l'administrateur</h1>
-            <CRUD param={param} fields={fields} setParam={setParam}></CRUD> 
+            <CRUD param={param} fields={fields} setParam={setParam} fieldsByParam={fieldsByParam}></CRUD> 
         </>
     );
 }
