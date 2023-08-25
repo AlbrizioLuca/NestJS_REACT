@@ -12,6 +12,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const users_module_1 = require("./users/users.module");
 const clients_module_1 = require("./clients/clients.module");
 const candidates_module_1 = require("./candidates/candidates.module");
+const address_module_1 = require("./address/address.module");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
@@ -19,7 +20,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mysql',
-                host: '192.168.8.117' || 'localhost',
+                host: '172.27.48.1' || 'localhost',
                 port: 3306,
                 username: 'AlbrizioLuca',
                 password: 'secretPassword',
@@ -30,6 +31,7 @@ exports.AppModule = AppModule = __decorate([
             users_module_1.UsersModule,
             clients_module_1.ClientsModule,
             candidates_module_1.CandidatesModule,
+            address_module_1.AddressModule,
         ],
     })
 ], AppModule);

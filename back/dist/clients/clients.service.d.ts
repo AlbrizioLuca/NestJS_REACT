@@ -8,6 +8,6 @@ export declare class ClientsService {
     create(createClientDto: CreateClientDto): Promise<CreateClientDto & Client>;
     findAll(): Promise<Client[]>;
     findOne(id: number): Promise<Client>;
-    update(id: number, updateCandidateDto: UpdateClientDto): Promise<Client>;
+    update(id: number, updateClientDto: UpdateClientDto): Promise<Client>;
     remove(id: number): Promise<Client>;
 }

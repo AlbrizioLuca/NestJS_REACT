@@ -25,14 +25,14 @@ export class ClientsService {
   async findOne(id: number) {
     const client = await this.clientsRepository.findOneBy({ id: id });
     if(!client){
-      throw new NotFoundException(`Aucun candidat trouvé avec l'id renseigné: ${id}`)
+      throw new NotFoundException(`Aucun client trouvé avec l'id renseigné: ${id}`)
     }
     return client;
   }
 
-  async update(id: number, updateCandidateDto: UpdateClientDto) {
+  async update(id: number, updateClientDto: UpdateClientDto) {
     const client = await this.findOne(id)
-    await this.clientsRepository.update(id, updateCandidateDto)
+    await this.clientsRepository.update(id, updateClientDto)
     return client;
   }
 

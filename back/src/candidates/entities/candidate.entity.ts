@@ -25,4 +25,7 @@ export class Candidate {
 
     @Column()
     vehicle: boolean;
+
+    @Column()
+    rqth: boolean;
 }

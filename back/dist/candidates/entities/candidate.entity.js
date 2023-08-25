@@ -45,6 +45,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Boolean)
 ], Candidate.prototype, "vehicle", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Boolean)
+], Candidate.prototype, "rqth", void 0);
 exports.Candidate = Candidate = __decorate([
     (0, typeorm_1.Entity)('candidate')
 ], Candidate);

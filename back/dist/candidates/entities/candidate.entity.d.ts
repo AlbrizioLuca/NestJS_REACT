@@ -7,4 +7,5 @@ export declare class Candidate {
     phone: string;
     birthday: Date;
     vehicle: boolean;
+    rqth: boolean;
 }
