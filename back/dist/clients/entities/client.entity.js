@@ -37,6 +37,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Client.prototype, "phone", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Client.prototype, "city", void 0);
 exports.Client = Client = __decorate([
     (0, typeorm_1.Entity)('client')
 ], Client);

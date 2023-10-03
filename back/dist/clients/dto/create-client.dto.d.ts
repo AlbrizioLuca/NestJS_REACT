@@ -4,4 +4,5 @@ export declare class CreateClientDto {
     lastname: string;
     email: string;
     phone: string;
+    city: string;
 }

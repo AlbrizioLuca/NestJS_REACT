@@ -27,4 +27,9 @@ export class CreateClientDto {
     @IsString()
     phone: string;
 
+    @ApiProperty({example:'Montpellier'})
+    @IsNotEmpty()
+    @IsString()
+    city: string;
+
 }

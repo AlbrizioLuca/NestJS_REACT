@@ -20,15 +20,19 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
+], Candidate.prototype, "gender", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
 ], Candidate.prototype, "firstname", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Candidate.prototype, "lastname", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Candidate.prototype, "diploma", void 0);
+    (0, typeorm_1.Column)({ type: "date" }),
+    __metadata("design:type", Date)
+], Candidate.prototype, "birthday", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -38,9 +42,25 @@ __decorate([
     __metadata("design:type", String)
 ], Candidate.prototype, "phone", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "date" }),
-    __metadata("design:type", Date)
-], Candidate.prototype, "birthday", void 0);
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Candidate.prototype, "diploma", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Candidate.prototype, "domain", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Candidate.prototype, "profession", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Candidate.prototype, "salary_pretentions", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Candidate.prototype, "city", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Boolean)

@@ -22,4 +22,9 @@ export class CreateUserDto {
     @IsString()
     @Length(8,255)
     password: string;
+
+    @ApiProperty({example:'Consultant'})
+    @IsNotEmpty()
+    @IsString()
+    role: string;
 }

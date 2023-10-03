@@ -20,4 +20,6 @@ export class Client {
     @Column()
     phone: string;
 
+    @Column()
+    city: string;
 }

@@ -6,7 +6,7 @@ import withAuthentication from '../hoc/withAuthentication';
 // Définit les REGEX pour la validation des champs
 const patterns = {
     name: "^(?![- ])[a-zA-ZÀ-ÿ -]*[^- ]$",    
-    enterprise: "^(?![- ])[a-zA-ZÀ-ÿ0-9 -]*[^- ]$",
+    string: "^(?![- ])[a-zA-ZÀ-ÿ0-9 -]*[^- ]$",
     email: "^\\w[\\w.-_]*@\\w[\\w.-_]*(?:\\.\\w[\\w-]*)+$", 
     password: "^(?=.*[a-zà-ÿ])(?=.*[A-ZÀ-Ÿ])(?=.*\\d)(?=.*[@$!%*?&.])[A-Za-zÀ-ÿ\\d@$!%*?&.]{8,}$", 
     phone: '^\\d{10}$' 
@@ -17,12 +17,17 @@ const fieldsByParam = {
     users: [
         { name: 'firstname', label: 'Prénom', pattern: patterns.name },
         { name: 'lastname', label: 'Nom', pattern: patterns.name },
+        { name: 'role', label: 'Rôle', pattern: patterns.name },
         { name: 'email', label: 'Email', pattern: patterns.email },
         { name: 'password', label: 'Mot de passe', type: "password", pattern: patterns.password }
     ],
     candidates: [
+        { name: 'gender', label: 'Genre', pattern: patterns.name },
         { name: 'firstname', label: 'Prénom', pattern: patterns.name },
         { name: 'lastname', label: 'Nom', pattern: patterns.name },
+        { name: 'birthday', label: 'Naissance', type: 'date' },
+        { name: 'email', label: 'Email', pattern: patterns.email },
+        { name: 'phone', label: 'Téléphone', pattern: patterns.phone },
         {
             name: 'diploma', label: 'Diplome', type: 'select',
             options: [
@@ -34,18 +39,34 @@ const fieldsByParam = {
                 { value: 'Master', label: 'Master' }
             ]
         },
-        { name: 'email', label: 'Email', pattern: patterns.email },
-        { name: 'phone', label: 'Téléphone', pattern: patterns.phone },
-        { name: 'birthday', label: 'Naissance', type: 'date' },
-        { name: 'vehicle', label: 'Véhiculé', type: 'boolean' }
+        { name: 'domain', label: 'Domaine', pattern: patterns.name },
+        { name: 'profession', label: 'Profession', pattern: patterns.name },
+        { name: 'salary_pretentions', label: 'Prétentions salariales' },
+        { name: 'city', label: 'Ville', pattern: patterns.name },
+        { name: 'vehicle', label: 'Véhiculé', type: 'boolean' },
+        { name: 'rqth', label: 'RQTH', type: 'boolean' },
     ],
 
     clients: [
-        { name: 'enterprise', label: 'Entreprise', pattern: patterns.enterprise },
+        { name: 'enterprise', label: 'Entreprise', pattern: patterns.string },
+        { name: 'city', label: 'Ville', pattern: patterns.name },
         { name: 'firstname', label: 'Prénom', pattern: patterns.name },
         { name: 'lastname', label: 'Nom', pattern: patterns.name },
         { name: 'email', label: 'Email', pattern: patterns.email },
-        { name: 'phone', label: 'Téléphone', pattern: patterns.phone }
+        { name: 'phone', label: 'Téléphone', pattern: patterns.phone },
+    ],
+
+    jobs: [
+        { name:'domain', label: 'Domaine', pattern: patterns.name},
+        { name: 'title', label: 'Titre', pattern: patterns.name},
+        { name: 'description', label: 'Description'},
+        { name: 'date_publication', label: 'Date de publication', type: 'date'},
+        { name: 'date_beginning', label: 'Date de début', type: 'date'},
+        { name: 'salary', label: 'Salaire'},
+        { name: 'contract_type', label: 'Type de contrat', pattern: patterns.name},
+        { name: 'contract_duration', label: 'Durée du contrat'},
+        { name: 'city', label: 'Ville', pattern: patterns.name},
+        { name: 'remote', label: 'Télétravail', type: 'boolean'},
     ]
 };
 function DisplayCRUD() {

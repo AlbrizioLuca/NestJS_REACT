@@ -17,6 +17,12 @@ class CreateCandidateDto {
 }
 exports.CreateCandidateDto = CreateCandidateDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: 'Monsieur', }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateCandidateDto.prototype, "gender", void 0);
+__decorate([
     (0, swagger_1.ApiProperty)({ example: 'Paul', }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
@@ -28,6 +34,13 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateCandidateDto.prototype, "lastname", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: '2000-03-23', }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsDate)(),
+    (0, typeorm_1.Column)({ type: "date" }),
+    __metadata("design:type", Date)
+], CreateCandidateDto.prototype, "birthday", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ example: 'paul-dubois@example.com', }),
     (0, class_validator_1.IsNotEmpty)(),
@@ -47,16 +60,39 @@ __decorate([
     __metadata("design:type", String)
 ], CreateCandidateDto.prototype, "diploma", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: '2000-03-23', }),
+    (0, swagger_1.ApiProperty)({ example: 'Paie', }),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsDate)(),
-    (0, typeorm_1.Column)({ type: "date" }),
-    __metadata("design:type", Date)
-], CreateCandidateDto.prototype, "birthday", void 0);
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateCandidateDto.prototype, "domain", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: 'Gestionnaire', }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateCandidateDto.prototype, "profession", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: '35000', }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", Number)
+], CreateCandidateDto.prototype, "salary_pretentions", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: 'Marseille', }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateCandidateDto.prototype, "city", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ example: 'true', }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsBoolean)(),
     __metadata("design:type", Boolean)
 ], CreateCandidateDto.prototype, "vehicle", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: 'false', }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreateCandidateDto.prototype, "rqth", void 0);
 //# sourceMappingURL=create-candidate.dto.js.map
