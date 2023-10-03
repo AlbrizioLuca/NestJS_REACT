@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import NavBar from '../components/NavBar';
 import CRUD from '../components/CRUD';
+import withAuthentication from '../hoc/withAuthentication';
+
 
 // Définit les REGEX pour la validation des champs
 const patterns = {
@@ -47,8 +48,7 @@ const fieldsByParam = {
         { name: 'phone', label: 'Téléphone', pattern: patterns.phone }
     ]
 };
-
-export default function DisplayCRUD() {
+function DisplayCRUD() {
     // Hook useState pour gérer l'état du paramètre
     const [param, setParam] = useState(Object.keys(fieldsByParam)?.[0] ?? "");
     // Récupère les champs en fonction du param
@@ -57,9 +57,10 @@ export default function DisplayCRUD() {
     // Rendu du composant
     return (
         <>
-            <NavBar></NavBar>
             <h1>Bienvenue sur le tableau de bord de l'administrateur</h1>
             <CRUD param={param} fields={fields} setParam={setParam} fieldsByParam={fieldsByParam}></CRUD> 
         </>
     );
 }
+
+export default withAuthentication(DisplayCRUD);

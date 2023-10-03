@@ -1,52 +1,24 @@
-* {
-  font-size: calc(8px + 2vmin);
-}
-
-.App , html{
-  text-align: center;
-  background-color: #282c34;
-  min-height: 100vh;
-  max-height: auto;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App, html {
+  background-color: #282c34;
+  text-align: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  color: white;
 }
 
 nav ul {
   list-style: none;
-  margin: 0 ;
+  margin: 10px ;
   padding: 0;
 }
 
@@ -55,40 +27,66 @@ nav li {
   margin-right: 20px;
 }
 
-nav li:last-child {
-  margin-right: 0;
-}
-
-h1, h3, a {
+h1, h2, h3, a {
+  font-size: 16px;
   color: #61dafb;
 }
 
-h2 , li , span , p  {
+a {
+  text-decoration: none;
+}
+
+a:hover, .redirection {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+li , span , p  {
   list-style-type: none;
   color: white;
+  font-size: 14px;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px 0;
+}
+
+label {
+  color: white;
+  margin-bottom: 7px;
+}
+
+input, textarea {
+  max-width: 300px;
+}
+
+.upload {
+  width: 80%;
+  margin: auto;
 }
 
 table {
-  min-width:60%;
-  max-width: 90%;
+  min-width: 50%;
+  max-width: 80%;
+  color: black;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  /* Responsive */
+  @media (min-width: 600px) { 
+    width: 80%;
+  }
+}
+
+table a {
+  color: black;
 }
 
 table th {
   background-color: #61dafb;
-}
-
-th select {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  text-align: center;
-  border: none;
-  color: inherit;
-  font-family: inherit;
-  font-weight: bold;
 }
 
 table tr:first-child {
@@ -102,6 +100,7 @@ table tr:nth-child(even) {
 table tr:nth-child(odd) {
   background-color: white;
 }
+
 table input{
   width: 90% ;
   border: 0;
@@ -109,7 +108,7 @@ table input{
   text-align: center;
 }
 
-input[type="checkbox"], input[type="radio"] {
+input[type="radio"] {
   width: 20px;
   height: 20px;
 }

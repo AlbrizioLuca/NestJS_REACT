@@ -29,12 +29,6 @@ __decorate([
     __metadata("design:type", String)
 ], CreateCandidateDto.prototype, "lastname", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 'Bac', }),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateCandidateDto.prototype, "diploma", void 0);
-__decorate([
     (0, swagger_1.ApiProperty)({ example: 'paul-dubois@example.com', }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsEmail)(),
@@ -46,6 +40,12 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateCandidateDto.prototype, "phone", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: 'Bac', }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateCandidateDto.prototype, "diploma", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ example: '2000-03-23', }),
     (0, class_validator_1.IsNotEmpty)(),

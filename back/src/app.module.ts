@@ -9,7 +9,8 @@ import { AddressModule } from './address/address.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '172.27.48.1' || 'localhost', // si l'appli tourne sur WSL: récupérer l' adresse IPv4 du réseau sur lequel le pc est relié avec la commande 'ipconfig' dans powershell
+      host: '172.23.144.1' || 'localhost', 
+      // récupérer l' adresse IPv4 WSL 'ipconfig' dans powershell
       port: 3306,
       username: 'AlbrizioLuca',
       password: 'secretPassword',

@@ -1,7 +1,6 @@
 import { IsBoolean, IsDate, IsEmail, IsNotEmpty, IsString } from "class-validator";
 import { Column } from "typeorm";
 import { ApiProperty } from '@nestjs/swagger';
-import { example } from "yargs";
 
 
 export class CreateCandidateDto {
@@ -15,11 +14,6 @@ export class CreateCandidateDto {
     @IsString()
     lastname: string;
     
-    @ApiProperty({example:'Bac',})
-    @IsNotEmpty()
-    @IsString()
-    diploma: string;
-    
     @ApiProperty({example:'paul-dubois@example.com',})
     @IsNotEmpty()
     @IsEmail()
@@ -29,7 +23,11 @@ export class CreateCandidateDto {
     @IsNotEmpty()
     @IsString()
     phone: string;
-
+    
+    @ApiProperty({example:'Bac',})
+    @IsNotEmpty()
+    @IsString()
+    diploma: string;
     @ApiProperty({example:'2000-03-23',})
     @IsNotEmpty()
     @IsDate()

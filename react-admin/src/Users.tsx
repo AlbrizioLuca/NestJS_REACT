@@ -24,10 +24,16 @@ const userFilters = [
 ];
 
 export const UserList = () => {
-    const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
+    const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("md"));
+    const isLarge = useMediaQuery<Theme>((theme) => theme.breakpoints.up("lg"));
     return (
         <List filters={userFilters}>
             {isSmall ? (
+                <SimpleList
+                    primaryText={(record) => record.firstname}
+                    secondaryText={(record) => record.lastname}
+                />
+            ) : !isLarge ? (
                 <SimpleList
                     primaryText={(record) => record.firstname}
                     secondaryText={(record) => record.lastname}

@@ -16,7 +16,7 @@ export class UsersService {
     private readonly JwtService : JwtService,
   ) {}
 
-  // ------------------------------------------  METHODES CRUD --------------------------------------------- 
+  // -------------------------  METHODES CRUD ------------------
 
   async create(createUserDto: CreateUserDto) {
     // Encoder le mot de passe
@@ -63,7 +63,7 @@ export class UsersService {
   // -----------------------  ACCESS JWT TOKEN ----------------------------------------------------
 
   private createAuthenticationToken(userId: number, email: string): string{
-    return this.JwtService.sign({ userId, email }, {secret: "secret"}); // ! à définir dans une variable d'env et ne pas afficher en clair !!
+    return this.JwtService.sign({ userId, email }, {secret: "secret"}); 
   }
   
   async signIn(authCredentialsDTO: AuthCredentialsDTO){

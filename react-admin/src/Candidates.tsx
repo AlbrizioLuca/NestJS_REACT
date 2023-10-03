@@ -35,7 +35,6 @@ export const CandidateList = () => {
                 <SimpleList
                     primaryText={(record) => record.firstname}
                     secondaryText={(record) => record.lastname}
-                    tertiaryText={(record) => record.email}
                 />
             ) : (
                 <Datagrid rowClick="edit">
