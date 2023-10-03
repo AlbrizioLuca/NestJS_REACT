@@ -39,18 +39,18 @@ export class UsersService {
     return user;
   }
 
-  async update(id: number, updateCandidateDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.findOne(id);
     // Vérifier si le mot de passe a été modifié
-    if (updateCandidateDto.password && updateCandidateDto.password !== user.password) {
+    if (updateUserDto.password && updateUserDto.password !== user.password) {
       // Hasher le nouveau mot de passe
-      updateCandidateDto.password = await hash(updateCandidateDto.password, 10);
+      updateUserDto.password = await hash(updateUserDto.password, 10);
     } else {
       // Conserver l'ancien mot de passe
-      updateCandidateDto.password = user.password;
+      updateUserDto.password = user.password;
     }
   
-    await this.usersRepository.update(id, updateCandidateDto);
+    await this.usersRepository.update(id, updateUserDto);
     return user;
   }
 

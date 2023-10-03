@@ -40,15 +40,15 @@ let UsersService = exports.UsersService = class UsersService {
         }
         return user;
     }
-    async update(id, updateCandidateDto) {
+    async update(id, updateUserDto) {
         const user = await this.findOne(id);
-        if (updateCandidateDto.password && updateCandidateDto.password !== user.password) {
-            updateCandidateDto.password = await (0, bcryptjs_1.hash)(updateCandidateDto.password, 10);
+        if (updateUserDto.password && updateUserDto.password !== user.password) {
+            updateUserDto.password = await (0, bcryptjs_1.hash)(updateUserDto.password, 10);
         }
         else {
-            updateCandidateDto.password = user.password;
+            updateUserDto.password = user.password;
         }
-        await this.usersRepository.update(id, updateCandidateDto);
+        await this.usersRepository.update(id, updateUserDto);
         return user;
     }
     async remove(id) {

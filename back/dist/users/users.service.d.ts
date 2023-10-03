@@ -11,7 +11,7 @@ export declare class UsersService {
     create(createUserDto: CreateUserDto): Promise<CreateUserDto & User>;
     findAll(): Promise<User[]>;
     findOne(id: number): Promise<User>;
-    update(id: number, updateCandidateDto: UpdateUserDto): Promise<User>;
+    update(id: number, updateUserDto: UpdateUserDto): Promise<User>;
     remove(id: number): Promise<User>;
     private createAuthenticationToken;
     signIn(authCredentialsDTO: AuthCredentialsDTO): Promise<{
