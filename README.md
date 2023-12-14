@@ -1,4 +1,4 @@
-### Résumé du projet exercé durant le stage
+### Résumé du projet réalisé durant le stage
 
 Pendant ma période de stage chez "Focus Recrutement", un cabinet de recrutement situé à Castelnaule-Lez, j'ai eu la chance d'explorer le domaine du développement web et de m'initier à de nouvelles technologies.
 
